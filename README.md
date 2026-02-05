@@ -1,25 +1,21 @@
-# Assignment 4-2: Forms and Fetch (Product Review System)
+# Assignment 4.3 - PokéCatch (Vite + Fetch + Forms)
 
-- [Overview](#overview)
+**Table of Contents**
 - [Reminders](#reminders)
 - [Setup](#setup)
-- [Assignment Parts](#assignment-parts)
-  - [Part 0: Short Response Questions](#part-0-short-response-questions)
-  - [Part 1: Review Form (5 points)](#part-1-review-form-5-points)
-  - [Part 2: Dynamic Reviews with Event Delegation (6 points)](#part-2-dynamic-reviews-with-event-delegation-6-points)
-  - [Part 3: Fetch and Post Reviews (8 points)](#part-3-fetch-and-post-reviews-8-points)
-
-## Overview
-
-In this assignment, you will build a **Product Review System** that progressively combines all the skills you've learned in Module 4:
-
-- Handling form submissions with JavaScript
-- Creating dynamic content
-- Using event delegation
-- Fetching data from APIs
-- Sending POST requests to APIs
-
-You'll build the same application three times, with each part adding more functionality!
+- [Short Response](#short-response)
+- [Code](#code)
+  - [Vite Project Structure](#vite-project-structure)
+- [Part 1) Fetching Pokémon](#part-1-fetching-pokémon)
+  - [Step 1A: Write the HTML (4 points)](#step-1a-write-the-html-4-points)
+  - [Step 1B: Fetch A Random Pokémon (9 points)](#step-1b-fetch-a-random-pokémon-9-points)
+  - [Step 1C: Render DOM Helpers (12 points)](#step-1c-render-dom-helpers-12-points)
+  - [Step 1D: Main App Logic (8 points)](#step-1d-main-app-logic-8-points)
+- [Part 2) Formspree Form (Catching Pokémon)](#part-2-formspree-form-catching-pokémon)
+  - [Step 2A: Write the HTML (7 points)](#step-2a-write-the-html-7-points)
+  - [Step 2B: Post a Discovered Pokémon (7 points)](#step-2b-post-a-discovered-pokémon-7-points)
+  - [Step 2C: Handle Form Submission (6 points)](#step-2c-handle-form-submission-6-points)
+- [Debugging Tips:](#debugging-tips)
 
 ## Reminders
 
@@ -35,7 +31,7 @@ Be mindful of your AI usage on assignments. AI can be a great tool to help your 
 
 **<details><summary>Be Okay With Being "Provisionally Complete"</summary>**
 
-At Marcy, we will deem an assignment as "complete" if you satisfy the requirements listed below.
+At Marcy, we will deem an assignment as "complete" if you satisfy the requirements listed below. 
 
 However, we know many of you will feel the urge to hold off on submitting until your assignment feels 100% perfect. That drive for excellence is an asset!
 
@@ -55,18 +51,16 @@ Learning to move forward with provisional completeness will help you make steady
 
 For guidance on setting up and submitting this assignment, refer to the Marcy Lab School Docs How-To guide for [Working with Short Response and Coding Assignments](https://marcylabschool.gitbook.io/marcy-lab-school-docs/how-tos/working-with-assignments#how-to-work-on-assignments).
 
-Files to modify are found in the `src/` directory:
-- `1-review-form/`
-- `2-dynamic-reviews/`
-- `3-fetch-reviews/`
-- `short-response.md`
+You are building a **Vite** project from scratch. Do not use `file://` or Live Server.
 
-**To view your page**: Drag and drop the `index.html` from the file explorer in VS Code directly into your Chrome Browser tab (do not use Safari — their devtools are terrible. Firefox is okay but not preferred).
-
-Here are some useful commands to remember to get started
+Here are some useful commands to remember:
 
 ```sh
 git checkout -b draft   # switch to the draft branch before starting
+
+npm create vite@latest  # create a Vite project
+npm i                   # install dependencies
+npm run dev             # start Vite dev server
 
 git add -A              # add a changed file to the staging area
 git commit -m 'message' # create a commit with the changes
@@ -75,177 +69,211 @@ git push                # push the new commit to the remote repo
 
 When you are finished, create a pull request and tag your instructor for review.
 
-## Assignment Parts
+## Short Response
 
-Each part builds on the previous one. You can test each part independently by opening its `index.html` file in your browser.
+There are 6 short response questions for you to answer. Each one is worth 6 points (3 points for writing quality and 3 points for technical content).
 
-### Part 0: Short Response Questions
+The questions assess your knowledge of:
+1. Promise Chaining
+2. Development Servers and CORS
+3. The `fetch` Response Object
+4. Async/Await Conversion
+5. `event.preventDefault()` and Form Handling
+6. Putting It All Together
 
-Answer the 6 questions in `src/short-response.md`. Each question is worth 6 points (3 points for writing, 3 points for technical content).
+## Code
 
-Questions cover:
-- `event.preventDefault()` and why it's needed
-- Comparing `form.elements` vs FormData API
-- Checkbox handling with FormData
-- Promise chaining
-- HTTP methods (GET, POST, PATCH, DELETE)
-- Error handling with `fetch()`
+Your task is to build a small Vite app that fetches a **random Pokémon (ID 1–150)** from the PokéAPI and renders a card. Then, create a form that lets the user "catch" the Pokémon by submitting its data to Formspree.
 
-### Part 1: Review Form (5 points)
+You must use:
+- ES modules (`import` / `export`)
+- `fetch()` with `async` / `await`
+- Form handling with `preventDefault()`
+- Submit form data to Formspree
 
-**Location**: `src/1-review-form/`
+CSS is not required for this project. Only functionality. Once you have completed the project's core functionality, you may style the project to your heart's content! But note that it will not contribute to your grade.
 
-**Your Task**: Build a form handler that displays submitted reviews dynamically.
+### Vite Project Structure
 
-**Files Provided**:
-- `index.html` — Complete HTML structure with a review form
-- `style.css` — Complete styling (no changes needed)
-- `index.js` — Starter file with TODO comments
+First, clean up the given starter code and create this file structure:
 
-**Requirements**:
-When the form is submitted:
-- [ ] Prevent the default page reload
-- [ ] Extract the form data using the **FormData API**
-- [ ] Convert the `recommend` checkbox to a boolean value
-- [ ] Render a review card li and add it to the review list (see the structure below)
-- [ ] Reset the form
-
-**Expected Result**:
-When you submit the form, the review should appear in the list like so. The form should be cleared and ready for the next review.
-
-```html
-<ul id="reviews-list">
-   <li class="review-card">
-      <div class="review-header">
-         <h3 class="product-name">Product Name</h3>
-         <span class="rating">⭐⭐⭐⭐⭐</span>
-      </div>
-      <p class="reviewer-name">by Reviewer Name</p>
-      <p class="review-text">Review text here...</p>
-      <span class="recommend-badge">✓ Recommended</span>
-   </li>
-   <!-- more reviews... -->
-</ul>
+```
+index.html
+src/
+- main.js
+- dom-helpers.js    <-- contains functionality for rendering data
+- fetch-helpers.js    <-- contains functionality for fetching
 ```
 
-HINT: To display the correct number of stars, use `"⭐".repeat(rating)`
+## Part 1) Fetching Pokémon
 
-### Part 2: Dynamic Reviews with Event Delegation (6 points)
+**Part 1 Scoring Total: 33 points**
 
-**Location**: `src/2-dynamic-reviews/`
+For this assignment, you will use this `/pokemon/{id}` endpoint from the [PokeAPI](https://pokeapi.co/) API.
 
-**Your Task**: Manage reviews in an array and add delete functionality using event delegation.
+Visit the website in the browser to read their documentation. The homepage has a section for you to test out this exact endpoint.
 
-**Files Provided**:
-- `index.html` — Same form structure as Part 1
-- `style.css` — Same styling with delete button styles added
-- `reviews-data.js` — Sample review data (3 reviews)
-- `index.js` — Starter file with TODO comments
+Try fetching Pikachu's data by using the `pokemon/25` endpoint.
 
-**Requirements**:
-1. Create a `renderReviews()` function that:
-   - Clears the reviews list
-   - Loops through the `allReviews` array
-   - For each review, creates an `<li>` with:
-     - All review data (same as Part 1)
-     - A delete button with class `"delete-btn"`
-     - A `data-id` attribute set to the review's `id`
-   - Appends all reviews to the list
+![The PokeAPI homepage has a section to test out calls to the /pokemon/{id} endpoint](./img/poke-api.png)
 
-2. When the form is submitted:
-   - Extract form data (same as Part 1)
-   - Create a new review object with an `id` property
-   - Add the review to the **beginning** of the `allReviews` array
-   - Call `renderReviews()` to update the display
-   - Reset the form
+The `{id}` portion of the URL is called a **URL parameter** and it can be any valid number that corresponds to a specific Pokémon.
 
-3. Create a `handleDelete()` function that uses **event delegation**:
-   - Listen for clicks on the reviews list (not individual buttons!)
-   - Check if the clicked element is a delete button
-   - Find the parent `<li>` element
-   - Get the `data-id` from the `<li>`
-   - Remove the review with that `id` from the `allReviews` array
-   - Call `renderReviews()` to update the display
+Your first task is to build a web application that:
+1. Randomly chooses an id between 1-150, fetches that Pokémon, and renders their data to the screen in a list of "Discovered Pokémon"
+2. Fetches a new random Pokémon when the user clicks on a button and adds their data to the list
 
-4. On page load:
-   - Call `renderReviews()` to display the 3 initial reviews from `reviews-data.js`
+By the end of this section, your project may look like this:
 
-**Expected Result**:
-- The page starts with 3 reviews displayed
-- You can add new reviews via the form
-- You can delete any review by clicking its delete button
-- The entire list re-renders after adding or deleting
+![A button may be clicked to discover a new Pokémon which are shown in a list](./img/part-1-complete.png)
 
-**Testing Checklist**:
-- [ ] Initial 3 reviews display on page load
-- [ ] New reviews are added to the top of the list
-- [ ] Each review has a delete button
-- [ ] Delete buttons work correctly
-- [ ] Event delegation is used (one click listener on the `<ul>`, not on each button)
-- [ ] Reviews list updates correctly after add/delete
+See below for step-by-step instructions for completing this part of the assignment. Each checkbox represents a point that you can earn towards completing this assignment. 
 
-### Part 3: Fetch and Post Reviews (8 points)
+You will:
+1. Create the HTML structure
+2. Create a helper function for fetching a random Pokémon
+3. Create a helper function for rendering a Pokémon list item
+4. Connect the pieces
 
-**Location**: `src/3-fetch-reviews/`
+### Step 1A: Write the HTML (4 points)
+In `index.html`, do the following:
+- [ ] Create an empty `p#error` element (a paragraph with the id "error") in the HTML body to display an **error** message.
+- [ ] Create an empty `p#success` element in the HTML body to display a **success** message.
+- [ ] Create a `button#discover-button` element in the HTML body that lets the user click on the button to "encounter" a new random Pokémon. Add appropriate text content.
+- [ ] Create a `ul#discovered-list` element in the HTML body where you will display the random Pokémon's data.
 
-**Your Task**: Fetch reviews from an API when the page loads, and POST new reviews when the form is submitted. **No API key is required** — we use [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free fake API.
+You may, but are not required to, add additional structure and headings.
 
-**Files Provided**:
-- `index.html` — Same structure with loading, error, and success message divs
-- `style.css` — Same styling (no changes needed)
-- `index.js` — Starter file with TODO comments
+### Step 1B: Fetch A Random Pokémon (9 points)
+In `src/fetch-helpers.js`, do the following:
 
-**API Information** (JSONPlaceholder — no key required):
-- **GET** `https://jsonplaceholder.typicode.com/users` — Returns an **array** of user objects (not wrapped in `.data`). Each user has: `id`, `name`, `username`, `email`, etc.
-- **POST** `https://jsonplaceholder.typicode.com/users` — Accepts a JSON body and returns the created object with an `id` added.
+- [ ] Create an async function called `getRandomPokemon()`. It should:
+  - [ ] Pick a random ID between 1 and 150 (inclusive)
+  - [ ] Fetch the Pokémon data using the API endpoint `https://pokeapi.co/api/v2/pokemon/{id}`
+  - [ ] Look through the data and create an object `pokemonObj` with this structure:
+      ```js
+      { 
+         name: "bulbasaur", 
+         types: "grass, poison", 
+         sprite: "https://raw.githubusercontent.com/..." 
+      }
+      ```
+  - [ ] Return an object `{ data: pokemonObj, error: null }` if the fetch succeeds
+  - [ ] Return an object `{ data: null, error: error }` if the fetch fails
+  - [ ] Use `try/catch`
+  - [ ] Use `async/await`
+- [ ] Export the function as a named export
 
-**Requirements**:
+Tip: Use the PokeAPI documentation or `console.log()` the response data to explore the data's structure and find the data you need to display.
 
-1. **Fetch on load** — Create a `fetchReviews()` function that:
-   - Shows the loading message and hides the error message
-   - Uses `fetch()` to GET data from the API
-   - Checks `response.ok` (throws error if not)
-   - Reads the response as JSON (the response **is** the array of users, not `response.data`)
-   - Transforms each user into a review object:
-     ```js
-     {
-       id: user.id,
-       productName: user.name + "'s Product",
-       reviewerName: user.name,
-       rating: Math.floor(Math.random() * 3) + 3, // Random 3-5
-       reviewText: user.email,
-       recommend: true
-     }
-     ```
-   - Stores transformed reviews in `allReviews`, hides loading, calls `renderReviews()`
-   - Uses `.catch()` to hide loading, show error message, and display the error
+### Step 1C: Render DOM Helpers (12 points)
+In `src/dom-helpers.js`, do the following:
 
-2. **POST on submit** — Create a `postReview(review)` function that:
-   - Disables the submit button and sets its text to "Submitting..."
-   - Uses `fetch()` with `method: 'POST'`, `headers: { 'Content-Type': 'application/json' }`, and `body: JSON.stringify(review)`
-   - Checks `response.ok`, reads JSON, returns the response data
-   - Re-enables the button in `.finally()`
+**renderPokemon:**
+- [ ] Create a function called `renderPokemon(pokemonObj)`. It should:
+  - [ ] Build a list item using DOM methods that contains:
+    - [ ] Pokémon's name (e.g. "Bulbasaur")
+    - [ ] Pokémon's types (e.g. "grass, poison")
+    - [ ] Pokémon's sprite image (e.g. "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/Pokémon/1.png")
+  - [ ] Append the list item to the `ul` created in step 1A for "discovered" Pokémon
+- [ ] Export the function as a named export
 
-3. **Update `handleFormSubmit()`** to:
-   - Extract form data (same as Part 2), then call `postReview()` with the review object
-   - On success: add the returned review (use returned `id`) to `allReviews`, call `renderReviews()`, show success message, reset form
-   - On error: show error message
-   - In `.finally()`: re-enable the submit button and set text back to "Submit Review"
+**renderError/renderSuccess**
+- [ ] Create a function called `renderError(msg)`. It should:
+   - [ ] Update the text content of the error element
+- [ ] Create a function called `renderSuccess(msg)`. It should:
+   - [ ] Update the text content of the success element
+- [ ] Export both functions named exports
 
-4. Keep **renderReviews()**, **handleDelete()** (event delegation), and all Part 2 behavior. On page load, call `fetchReviews()`.
+### Step 1D: Main App Logic (8 points)
 
-**Expected Result**:
-- Page loads with 10 reviews from the API (JSONPlaceholder has 10 users)
-- Submitting the form sends a POST, shows "Submitting...", then adds the new review and shows a success message
-- Loading and error states work; delete still works
+In `src/main.js`, do the following:
 
-**Testing Checklist**:
-- [ ] Loading message appears while fetching
-- [ ] Reviews from API are transformed and displayed (10 reviews)
-- [ ] Submit shows "Submitting..." and disables button
-- [ ] POST adds new review to the list and shows success message
-- [ ] Button re-enables and form resets after submit
-- [ ] Error handling works (try an invalid URL)
-- [ ] Delete still works
+- [ ] Import your helper functions from `dom-helpers.js` and `fetch-helpers.js`
+- [ ] Create an async function called `getAndRenderPokemon()`. It should:
+  - [ ] Fetch a random Pokemon to get the `data` or the `error`.
+  - [ ] If the fetch failed (the error exists), clear the success message and show the returned `error`
+  - [ ] If the fetch was successful, use `renderPokemon()` to render the Pokémon data, 
+  - [ ] If the fetch was successful, show a success message `"{Pokemon} was discovered!"` and clear the error message
+- [ ] When the page loads, invoke `getAndRenderPokemon()`
+- [ ] Add an event listener to the button that invokes `getAndRenderPokemon()`
 
-**Bonus** (optional): Use `async`/`await`, or add client-side validation.
+***TIP: Test your error logic works by fudging the fetch URL.***
+
+## Part 2) Formspree Form (Catching Pokémon)
+
+**Part 2 Scoring Total: 20 points**
+
+Create a Formspree form called **"Discovered Pokemon"**. Copy your Formspree endpoint which should look like this:
+
+```
+https://formspree.io/f/YOUR_FORM_ID
+```
+
+Your task is to create a form that lets the user submit data about the Pokémon they encounter and “capture” them. They can also indicate whether or not
+the Pokémon is a favorite.
+
+By the end of this section, your project may look like this:
+
+![A form allows the user to capture a Pokémon. A success message is shown](./img/part-2-complete.png)
+
+See below for step-by-step instructions for completing this part of the assignment. Each checkbox represents a point that you can earn towards completing this assignment. 
+
+You will:
+1. Create the HTML structure
+2. Create a helper function for posting a captured Pokémon
+3. Handle the form submission and connect the pieces
+
+### Step 2A: Write the HTML (7 points)
+
+In `index.html`, do the following:
+
+- [ ] Near the top of the page (inside `body`), add a form with the following fields: `name`, `types`, and `isFavorite`
+   - [ ] Each form field has a `label` and is wrapped in a `div`
+   - [ ] Each form field has a `name` attribute
+   - [ ] The form has a heading that describes the form's purpose
+   - [ ] The form has a button to "capture" the Pokémon.
+
+### Step 2B: Post a Discovered Pokémon (7 points)
+
+In `src/fetch-helpers.js`, do the following:
+
+- [ ] Create an async function called `postDiscoveredPokemon(formData)`. It should:
+   - [ ] Send a **POST** request to your Formspree endpoint
+   - [ ] Use `fetch()` with method: **"POST"**
+   - [ ] Send JSON in the request body (use `JSON.stringify`)
+   - [ ] Include headers for JSON:
+      ```js
+      headers: {
+         "Content-Type": "application/json",
+         "Accept": "application/json"
+      }
+      ```
+   - [ ] Use `try`/`catch`
+   - [ ] Return `{ data: responseData, error: null }` if successful
+   - [ ] Return `{ data: null, error: error }` if it fails
+- [ ] Export the function as a **named export**
+
+### Step 2C: Handle Form Submission (6 points)
+
+In `src/main.js`, do the following:
+
+- [ ] Add an event listener to capture submissions to your form
+- [ ] Inside the handler:
+   - [ ] Call `event.preventDefault()`
+   - [ ] Extract the form data (you may use `FormData` or `form.elements`)
+   - [ ] Convert the `isFavorite` checkbox value to a **boolean**
+   - [ ] Call `postDiscoveredPokemon(formValues)`
+   - [ ] If the request succeeds, show a success message `"{name} has been captured!"` (use the existing success/error `p` elements)
+   - [ ] If it fails, show an error message `"Error: unable to capture Pokémon. Please try again later"` (use the existing success/error `p` elements)
+   - [ ] Reset the form after a successful submission
+
+---
+
+## Debugging Tips:
+If you get stuck, debug in this order:
+1. Check the browser console for errors
+2. Confirm Vite dev server is running
+3. Confirm your `fetch()` URL is correct
+4. Confirm your Formspree URL is correct
+5. Console.log the data you think you’re passing
