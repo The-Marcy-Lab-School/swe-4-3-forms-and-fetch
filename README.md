@@ -120,6 +120,8 @@ CSS is not required for this project. Only functionality. Once you have complete
   * **Part 1 Scoring Total:** 33 points
   * **Part 2 Scoring Total:** 20 points
 
+--- 
+
 ### Part 1) Fetching Pokémon
 
 Your first task is to build a web application that:
