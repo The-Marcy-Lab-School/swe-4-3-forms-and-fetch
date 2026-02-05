@@ -6,15 +6,15 @@
 - [Short Response](#short-response)
 - [Code](#code)
   - [Vite Project Structure](#vite-project-structure)
-- [Part 1) Fetching Pokémon](#part-1-fetching-pokémon)
-  - [Step 1A: Write the HTML (4 points)](#step-1a-write-the-html-4-points)
-  - [Step 1B: Fetch A Random Pokémon (9 points)](#step-1b-fetch-a-random-pokémon-9-points)
-  - [Step 1C: Render DOM Helpers (12 points)](#step-1c-render-dom-helpers-12-points)
-  - [Step 1D: Main App Logic (8 points)](#step-1d-main-app-logic-8-points)
-- [Part 2) Formspree Form (Catching Pokémon)](#part-2-formspree-form-catching-pokémon)
-  - [Step 2A: Write the HTML (7 points)](#step-2a-write-the-html-7-points)
-  - [Step 2B: Post a Discovered Pokémon (7 points)](#step-2b-post-a-discovered-pokémon-7-points)
-  - [Step 2C: Handle Form Submission (6 points)](#step-2c-handle-form-submission-6-points)
+  - [Part 1) Fetching Pokémon](#part-1-fetching-pokémon)
+    - [Step 1A: Write the HTML (4 points)](#step-1a-write-the-html-4-points)
+    - [Step 1B: Fetch A Random Pokémon (9 points)](#step-1b-fetch-a-random-pokémon-9-points)
+    - [Step 1C: Render DOM Helpers (12 points)](#step-1c-render-dom-helpers-12-points)
+    - [Step 1D: Main App Logic (8 points)](#step-1d-main-app-logic-8-points)
+  - [Part 2) Formspree Form (Catching Pokémon)](#part-2-formspree-form-catching-pokémon)
+    - [Step 2A: Write the HTML (7 points)](#step-2a-write-the-html-7-points)
+    - [Step 2B: Post a Discovered Pokémon (7 points)](#step-2b-post-a-discovered-pokémon-7-points)
+    - [Step 2C: Handle Form Submission (6 points)](#step-2c-handle-form-submission-6-points)
 - [Debugging Tips:](#debugging-tips)
 
 ## Reminders
@@ -105,7 +105,7 @@ src/
 - fetch-helpers.js    <-- contains functionality for fetching
 ```
 
-## Part 1) Fetching Pokémon
+### Part 1) Fetching Pokémon
 
 **Part 1 Scoring Total: 33 points**
 
@@ -135,7 +135,7 @@ You will:
 3. Create a helper function for rendering a Pokémon list item
 4. Connect the pieces
 
-### Step 1A: Write the HTML (4 points)
+#### Step 1A: Write the HTML (4 points)
 In `index.html`, do the following:
 - [ ] Create an empty `p#error` element (a paragraph with the id "error") in the HTML body to display an **error** message.
 - [ ] Create an empty `p#success` element in the HTML body to display a **success** message.
@@ -144,7 +144,7 @@ In `index.html`, do the following:
 
 You may, but are not required to, add additional structure and headings.
 
-### Step 1B: Fetch A Random Pokémon (9 points)
+#### Step 1B: Fetch A Random Pokémon (9 points)
 In `src/fetch-helpers.js`, do the following:
 
 - [ ] Create an async function called `getRandomPokemon()`. It should:
@@ -158,15 +158,16 @@ In `src/fetch-helpers.js`, do the following:
          sprite: "https://raw.githubusercontent.com/..." 
       }
       ```
+      Hint: What array methods can you use to get the types in this string?
   - [ ] Return an object `{ data: pokemonObj, error: null }` if the fetch succeeds
   - [ ] Return an object `{ data: null, error: error }` if the fetch fails
   - [ ] Use `try/catch`
   - [ ] Use `async/await`
 - [ ] Export the function as a named export
 
-Tip: Use the PokeAPI documentation or `console.log()` the response data to explore the data's structure and find the data you need to display.
+> Tip: Use the PokeAPI documentation or `console.log()` the response data to explore the data's structure and find the data you need to display.
 
-### Step 1C: Render DOM Helpers (12 points)
+#### Step 1C: Render DOM Helpers (12 points)
 In `src/dom-helpers.js`, do the following:
 
 **renderPokemon:**
@@ -185,7 +186,7 @@ In `src/dom-helpers.js`, do the following:
    - [ ] Update the text content of the success element
 - [ ] Export both functions named exports
 
-### Step 1D: Main App Logic (8 points)
+#### Step 1D: Main App Logic (8 points)
 
 In `src/main.js`, do the following:
 
@@ -200,7 +201,7 @@ In `src/main.js`, do the following:
 
 ***TIP: Test your error logic works by fudging the fetch URL.***
 
-## Part 2) Formspree Form (Catching Pokémon)
+### Part 2) Formspree Form (Catching Pokémon)
 
 **Part 2 Scoring Total: 20 points**
 
@@ -224,7 +225,7 @@ You will:
 2. Create a helper function for posting a captured Pokémon
 3. Handle the form submission and connect the pieces
 
-### Step 2A: Write the HTML (7 points)
+#### Step 2A: Write the HTML (7 points)
 
 In `index.html`, do the following:
 
@@ -234,7 +235,7 @@ In `index.html`, do the following:
    - [ ] The form has a heading that describes the form's purpose
    - [ ] The form has a button to "capture" the Pokémon.
 
-### Step 2B: Post a Discovered Pokémon (7 points)
+#### Step 2B: Post a Discovered Pokémon (7 points)
 
 In `src/fetch-helpers.js`, do the following:
 
@@ -254,7 +255,7 @@ In `src/fetch-helpers.js`, do the following:
    - [ ] Return `{ data: null, error: error }` if it fails
 - [ ] Export the function as a **named export**
 
-### Step 2C: Handle Form Submission (6 points)
+#### Step 2C: Handle Form Submission (6 points)
 
 In `src/main.js`, do the following:
 
