@@ -25,14 +25,6 @@ A student opens their `index.html` file directly in the browser (using the `file
 
 **Your Answer:**
 
-When you open an HTML file directly from your filesystem, the browser uses the `file://` protocol. Browsers have a security feature called CORS (Cross-Origin Resource Sharing) that blocks two things when using the `file://` protocol:
-
-1. Loading ES modules across files — the browser treats each local file as a different "origin" so it blocks the `import` statements.
-2. Making `fetch()` requests to APIs on the internet — the browser blocks requests from `file://` to `https://` because they are different origins.
-
-To fix this, the student should use a development server like Vite. A development server serves the files over the `http://` protocol (like `http://localhost:5173`), which is the same protocol used in production. This way, module imports and fetch requests both work properly.
-
-To set up Vite, you run `npm create vite@latest`, then `cd` into the project, run `npm i`, and then `npm run dev` to start the development server.
 
 ## Question 3: The `fetch` Response Object
 
